@@ -1,3 +1,4 @@
+const { UserInputError } = require('apollo-server');
 const fs = require('fs');
 const Person = require('../models/person.model');
 
@@ -37,9 +38,15 @@ const resolvers = {
       }
     },
 
+    // Get single person by id---> GET request for single person
     person: async (parent, args) => {
       try {
         const person = await Person.findById(args.id);
+
+        if (!person) {
+          throw new Error('No person found');
+        }
+
         return person;
       } catch (err) {
         throw new Error(err);
@@ -50,6 +57,16 @@ const resolvers = {
     addPerson: async (parent, args) => {
       // args is an object that contains the arguments passed in the mutation i.e req.body in a REST API express
       try {
+        if (!(args.name || args.age || args.employed || args.gpa)) {
+          throw new UserInputError('All fields are required', {
+            errors: {
+              name: 'Name is required',
+              age: 'Age is required',
+              employed: 'Employed is required',
+              gpa: 'GPA is required',
+            },
+          });
+        }
         const person = await Person.create(args);
         return person;
       } catch (err) {
@@ -59,9 +76,17 @@ const resolvers = {
 
     updatePerson: async (parent, args) => {
       try {
-        const person = await Person.findByIdAndUpdate(args.id, args, {
-          new: true,
-        });
+        const { id, name, age, employed, gpa } = args;
+        const person = await Person.findByIdAndUpdate(
+          id,
+          { name, age, employed, gpa },
+          { new: true }
+        );
+
+        if (!person) {
+          throw new Error('No person found');
+        }
+
         return person;
       } catch (err) {
         throw new Error(err);
@@ -69,7 +94,12 @@ const resolvers = {
     },
     deletePerson: async (parent, args) => {
       try {
-        const person = await Person.findByIdAndDelete(args.id);
+        const person = await Person.findByIdAndDelete(args.id); // args.id is the id passed in the mutation
+
+        if (!person) {
+          throw new Error('No person found');
+        }
+
         return person;
       } catch (err) {
         throw new Error(err);

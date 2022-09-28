@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 // Import the apollo-server library
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer, UserInputError } = require('apollo-server');
 const connectDB = require('./config/db');
 
 const defTypes = require('./graphql/def'); // import typeDefs, Query and Mutation
