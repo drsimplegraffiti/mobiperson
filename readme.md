@@ -10,7 +10,6 @@ Install the following packages
 #### Graphql Documentation
 
 [Apollo-server](https://www.apollographql.com/docs/apollo-server/getting-started/)
-[koyeb](https://www.koyeb.com/tutorials/deploy-a-graphql-api-with-mongodb-atlas-and-apollo-server-on-koyeb)
 
 ---
 
