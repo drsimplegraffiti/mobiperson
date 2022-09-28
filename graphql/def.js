@@ -2,7 +2,7 @@ const { gql } = require('apollo-server');
 
 // Create a schema ==> typeDefs, Query and Mutation
 const defTypes = gql`
-  type Person { # type Person is like a class or a mongoose Schema in mongodb
+  type Person { # type defines the queryable fields for every person in our data source.
     id: ID! # ! means required
     name: String!
     age: Int!
@@ -19,6 +19,7 @@ const defTypes = gql`
   # Root Mutation performs write operations
   type Mutation {
     addPerson(name: String!, age: Int!, employed: Boolean!, gpa: Float): Person!
+    
     updatePerson(
       id: ID!
       name: String!

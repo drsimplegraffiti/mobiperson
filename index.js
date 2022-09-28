@@ -1,9 +1,15 @@
+require('dotenv').config();
+
+// Import the apollo-server library
 const { ApolloServer } = require('apollo-server');
+const connectDB = require('./config/db');
 
 const defTypes = require('./graphql/def'); // import typeDefs, Query and Mutation
 const resolvers = require('./graphql/resolvers'); // import resolvers
 
-// Create an instance of ApolloServer
+connectDB();
+
+// The ApolloServer constructor requires two parameters: typeDefs and resolvers
 const server = new ApolloServer({
   typeDefs: defTypes,
   resolvers,
